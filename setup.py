@@ -56,12 +56,12 @@ CLASSIFIERS = ['Development Status :: 3 - Alpha',
                'License :: OSI Approved :: MIT License',
                'Natural Language :: English',
                'Operating System :: Unix',
-               'Programming Language :: Python :: 3.7',
+               'Programming Language :: Python :: 3.9',
                'Programming Language :: Python :: 3 :: Only',
                'Topic :: System :: Networking',
                ]
 
-PYTHON_REQUIRES = '>= 3'
+PYTHON_REQUIRES = '>= 3.9'
 ENTRY_POINTS = { 'console_scripts': ['evillimiter = evillimiter.evillimiter:run'] }
 
 INSTALL_REQUIRES = ['colorama',
