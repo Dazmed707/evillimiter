@@ -1,8 +1,8 @@
 import os
 import re
+import sys
+import subprocess
 from setuptools import setup, find_packages, Command
-
-
 
 class CleanCommand(Command):
     user_options = []
@@ -14,27 +14,28 @@ class CleanCommand(Command):
         pass
 
     def run(self):
-        os.system('rm -vrf ./build ./dist ./*.pyc ./*.pyo ./*.pyd ./*.tgz ./*.egg-info `find -type d -name __pycache__`')
-
+        subprocess.run(['rm', '-vrf', './build', './dist', './*.pyc', './*.pyo', './*.pyd', './*.tgz', './*.egg-info'], check=True)
+        subprocess.run(['find', '-type', 'd', '-name', '__pycache__', '-exec', 'rm', '-rf', '{}', '+'], check=True)
 
 def get_init_content():
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evillimiter', '__init__.py'), 'r') as f:
         return f.read()
-
 
 def get_version():
     version_match = re.search(r'^__version__ = [\'"](\d\.\d\.\d)[\'"]', get_init_content(), re.M)
     if version_match:
         return version_match.group(1)
     
-    raise RuntimeError('Unable to locate version string.')
+    print(f"Unable to locate version string in {os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evillimiter', '__init__.py')}")
+    sys.exit(1)
 
 def get_description():
     desc_match = re.search(r'^__description__ = [\'"]((.)*)[\'"]', get_init_content(), re.M)
     if desc_match:
         return desc_match.group(1)
     
-    raise RuntimeError('Unable to locate description string.')
+    print(f"Unable to locate description string in {os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evillimiter', '__init__.py')}")
+    sys.exit(1)
 
 
 NAME = 'evillimiter'
